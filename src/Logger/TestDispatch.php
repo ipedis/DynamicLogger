@@ -16,15 +16,15 @@ class TestDispatch
     {
         $dispatcher = new EventDispatcher();
 
-        $channelLog = new OtherChannelLogger(["log" => new DateTime("now")], "error", "Hello Test");
+        $channelLog = new OtherChannelLogger(["log" => new DateTime("now")], "info", "Hello Test");
 
         $event = new GlobalChannelEvent($channelLog);
 
-        $dispatcher->addListener('write.log', function (GlobalChannelEvent $event) {
+        $dispatcher->addListener(Events::EVENT1, function (GlobalChannelEvent $event) {
             $event->getChannel()->onEvent();
         });
 
 
-        $dispatcher->dispatch("write.log", $event);
+        $dispatcher->dispatch(Events::EVENT1, $event);
     }
 }

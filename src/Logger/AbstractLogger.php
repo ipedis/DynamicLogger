@@ -22,6 +22,7 @@ abstract class AbstractLogger {
 	abstract function onEvent();
 
     /**
+     * TODO handle all possible level
      * @param array $context
      * @param string $level
      * @param string $channel_name
@@ -62,9 +63,13 @@ abstract class AbstractLogger {
         $this->logger->debug($message, $context);
     }
 
+    /**
+     * Create new logger depending on the channel in parameters
+     * @param $channel
+     * @throws \Exception
+     */
     public function createLogger($channel)
     {
-        //die("Here");
         $this->channel = $channel;
         $this->logger = new Logger($channel);
         $this->logger->pushHandler(new \Monolog\Handler\StreamHandler(__DIR__.'/var/'.$this->channel . '.log', Logger::DEBUG));
