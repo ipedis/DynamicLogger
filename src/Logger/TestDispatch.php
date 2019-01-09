@@ -34,10 +34,27 @@ class TestDispatch
             $event->getChannel()->onEvent();
         });
 
+        $dispatcher->addListener(Events::ERROR, function (GlobalChannelEvent $event) {
+            $event->getChannel()->onEvent();
+        });
+
         // dispatch first event [step = 1]
         $dispatcher->dispatch(Events::EVENT1, $event);
 
         // dispatch event [automatically step = 2]
         $dispatcher->dispatch(Events::EVENT2, $event2);
+
+        /**
+         * Manually create exception
+         * Exception will automatically get the current step when Exception is thrown
+         */
+        try {
+            throw new \Exception("Unable to terminate process");
+        } catch (\Exception $exception) {
+            $channelLog = new ChannelLogger($context, 'error', $exception->getMessage());
+            $errorEvent = new GlobalChannelEvent($channelLog);
+            $dispatcher->dispatch(Events::ERROR, $errorEvent);
+        }
+
     }
 }
