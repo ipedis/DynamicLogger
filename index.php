@@ -7,16 +7,11 @@
 
 require 'vendor/autoload.php';
 
+/**
+ * using event
+ */
 $test = new Ipedis\Logger\TestDispatch();
 $test->log();
 
-$step = new \Ipedis\TestStep();
-$step->next();
-
 echo "Page loaded";
 
-$greeting = function ($name) {
-    return "Hello " . $name;
-};
-
-$greeting("Jess");

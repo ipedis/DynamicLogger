@@ -10,6 +10,7 @@ namespace Ipedis;
 
 
 use Ipedis\Closure\Step;
+use Ipedis\Logger\ChannelInterface;
 
 class TestStep
 {
@@ -17,9 +18,9 @@ class TestStep
      * @var Step
      */
     private $step;
-    function next()
+    function next(ChannelInterface $channel)
     {
         $this->step = new Step();
-        $this->step->write(["step" => 1, "task_id" => 12], "info", "step", "first step executed");
+        $this->step->write($channel->getContext(), $channel->getLevel(), $channel::NAME, $channel->getMessage());
     }
 }

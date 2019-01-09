@@ -1,1 +1,6 @@
-[2019-01-08 17:40:29] my_prod.ERROR: Hello Test {"log":"2019-01-08 17:40:29"} []
+[2019-01-09 13:05:42] my_prod.INFO: Hello Test {"task_id":"task_5c35b96647528","step":1} []
+[2019-01-09 13:05:42] my_prod.INFO: Next log {"task_id":"task_5c35b96647528","step":2} []
+[2019-01-09 13:06:54] my_prod.INFO: First step {"task_id":"task_5c35b9aeacf72","step":1} []
+[2019-01-09 13:06:54] my_prod.INFO: First step {"task_id":"task_5c35b9aeacf72","step":1} []
+[2019-01-09 13:08:28] my_prod.INFO: First step {"task_id":"task_5c35ba0c01021","step":1} []
+[2019-01-09 13:08:28] my_prod.INFO: Next step {"task_id":"task_5c35ba0c01021","step":2} []
