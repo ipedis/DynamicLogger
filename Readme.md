@@ -1,23 +1,21 @@
-Autre moyen:
+An AbstractLogger class that will take care of creating the logger and writing inside
 
-Une classe AbstractLogger qui va se charger de créer le logger et d'écrire dédans
+A ChannelInterface class that defines the context
 
-Une classe ChannelInterface qui sert à définir le contexte
+each channel will have a Logger class that will extend AbstractLogger and implements ChannelInterface
 
-chaque channel aura une classe Logger qui va étendre AbstractLogger et implémente ChannelInterface
+An Events class that will contain all events [I was inspired by FOSUser]
+A GlobalChannelEvent class having a ChannelInterface constructor parameter and extending the Event class
 
-Une classe Events qui va contenir tous les events [Je me suis inspiré de celle de FOSUser]
-Une classe GlobalChannelEvent ayant comme paramètre en constructeur une ChannelInterface et étendre la classe Event
+When dispatching an event, a GlobalChannelEvent will be returned. In the listener, we call the method onEvent () of the channel contained in the GlobalChannelEvent
+So, onEvent () will depend on the type of the channel, which we write the log in the right channel
 
-Lors du dispatch d'un event, un GlobalChannelEvent sera retourné. Dans le listener, on appel la method onEvent() de la channel contenu dans le GlobalChannelEvent
-Du coup, onEvent() va dépendre du type de la channel, ce qui nous écrit le log dans le bon channel
+Advantages:
 
-Avantages:
+Low coupling with business logic
+More flexible for adaptation
+No need to create EventListener or EventSuscriber for each Channel
 
-Couplage faible avec la logique métier
-Plus souple pour adaptation
-Pas besoin de créer des EventListener ou EventSuscriber pour chaque Channel
+disadvantages:
 
-Inconvénients:
-
-createLogger figé dans AbstractLogger. Ce qui limite la possibilité pour d'autre type de log [Email, Push, etc]
+createLogger frozen in AbstractLogger. Which limits the possibility for other type of log [Email, Push, etc.]
