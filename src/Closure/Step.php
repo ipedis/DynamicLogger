@@ -1,25 +1,23 @@
 <?php
-namespace Ipedis\Logger;
+namespace Ipedis\Closure;
 use Monolog\Logger;
 
-abstract class AbstractLogger {
-
+/**
+ * log every step of a process
+ */
+class Step
+{
     const ERROR = "error";
     const DEBUG = "debug";
     const INFO = "info";
     /**
-     * @var Logger
+     * @var \Monolog\Logger
      */
-	private $logger;
-
-	private $channel;
-
-	public function __construct()
-	{
-
-	}
-
-	abstract function onEvent();
+    private $logger;
+    /**
+     * @var string
+     */
+    private $channel;
 
     /**
      * TODO handle all possible level
@@ -29,29 +27,29 @@ abstract class AbstractLogger {
      * @param $message
      * @throws \Exception
      */
-	public function write($context, $level, $channel_name, $message)
-	{
-	    $this->channel = $channel_name;
-	    if ($this->logger == null) {
-	        $this->createLogger($channel_name);
+    public function write($context, $level, $channel_name, $message)
+    {
+        $this->channel = $channel_name;
+        if ($this->logger == null) {
+            $this->createLogger($channel_name);
         }
-		switch ($level) {
-			case self::INFO:
-				$this->writeInfo($context, $message);
-				break;
+        switch ($level) {
+            case self::INFO:
+                $this->writeInfo($context, $message);
+                break;
             case self::ERROR:
                 $this->writeError($context, $message);
                 break;
             case self::DEBUG:
                 $this->writeDebug($context, $message);
                 break;
-			default:
-				# code...
-				break;
-		}
-	}
+            default:
+                # code...
+                break;
+        }
+    }
 
-	private function writeInfo($context, $message)
+    private function writeInfo($context, $message)
     {
         $this->logger->info($message, $context);
     }
