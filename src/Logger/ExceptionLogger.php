@@ -11,18 +11,77 @@ namespace Ipedis\Logger;
 
 class ExceptionLogger extends AbstractLogger implements ChannelInterface
 {
-    function onEvent()
+    const NAME = "exception";
+    private $context;
+    private $level;
+    private $message;
+    private $currentStep;
+
+    function __construct(&$context, $level = 'error', $message = 'An exception occured')
     {
-        // TODO: Implement onEvent() method.
+        $this->context = $context;
+
+        if (isset($context['step'])) {
+            $this->currentStep = $context['step'];
+            $context['step'] = $this->currentStep + 1;
+        }
+        $this->level = $level;
+        $this->message = $message;
+        parent::createLogger(self::NAME);
+        parent::__construct();
     }
 
-    public function setContext($context)
+    /**
+     * @override
+     * @param $ctx
+     */
+    public function setContext($ctx)
     {
-        // TODO: Implement setContext() method.
+        $this->context = $ctx;
     }
 
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+    public function addCtx($ctx)
+    {
+        $this->context = array_merge($this->context, $ctx);
+    }
+
+    /**
+     * @override
+     * @param $level
+     */
     public function setLevel($level)
     {
-        // TODO: Implement setLevel() method.
+        $this->level = $level;
+    }
+
+    public function getLevel()
+    {
+        return $this->level;
+    }
+
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
+    public function onEvent()
+    {
+        parent::write($this->context, $this->level, self::NAME, $this->message);
+    }
+
+    public function addStep(\Closure $closure)
+    {
+        dump($closure);
+        //$closure->next($this->context, $this->getLevel(), $this::NAME, $this->getMessage());
     }
 }

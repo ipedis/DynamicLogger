@@ -51,8 +51,8 @@ class TestDispatch
         try {
             throw new \Exception("Unable to terminate process");
         } catch (\Exception $exception) {
-            $channelLog = new ChannelLogger($context, 'error', $exception->getMessage());
-            $errorEvent = new GlobalChannelEvent($channelLog);
+            $errorLog = new ExceptionLogger($context);
+            $errorEvent = new GlobalChannelEvent($errorLog);
             $dispatcher->dispatch(Events::ERROR, $errorEvent);
         }
 
